@@ -86,67 +86,7 @@ function getColor(depth) {
 
 // Determine the radius of the marker based on earthquake magnitude
 function getRadius(magnitude) {
-    return magnitude * 10;
+    return magnitude * 20;
 }
 
-    // Generate the map layers
-    createMap(earthquakes);
-}
-
-// Generate the map layers
-function createMap(earthquakes) {
-    // Generate the base of the map.
-    let streetmap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    });
-    // Generate a baseMaps object to hold streetmap layer.
-    let baseMaps = {
-        "Street Map": streetmap
-    };
-    // Generate an overlayMaps object to hold earthquakes layer.
-    let overlayMaps = {
-        "Earthquakes": earthquakes
-    };
-
-    // Generate map object with options.
-    let map = L.map("map", {
-        center: [37.09, -95.71],
-        zoom: 5,
-        layers: [streetmap, earthquakes]
-    });
-
-    // Make legend
-    let legend = L.control({position: 'bottomright'});
-    legend.onAdd = function() {
-        let div = L.DomUtil.create('div', "legend"),
-            depths = [0, 1, 10, 30, 50, 70],
-            labels = [];
-
-        // Create a loop through the groups and generate colored labels for each group
-        for (let i = 0; i < depths.length; i++) {
-            div.innerHTML +=
-                '<i style="background:' + getColor(depths[i] + 1) + '"></i> ' +
-                depths[i] + (depths[i + 1] ? '&ndash;' + depths[i + 1] + '<br>' : '+');
-        }
-        return div;
-    };
-
-    // Add legend to map
-    legend.addTo(map);
-}
-
-// Assign color of the marker based on earthquake depth
-function getColor(depth) {
-    return depth > 70 ? "#238823" :
-        depth > 50 ? "#6fa06f" :
-        depth > 30 ? "#98bf98" :
-        depth > 10 ? "#c2e699" :
-        depth > 1 ? "#e5f5e0" :
-        "#f7fcf5";
-}
-
-// Determine the radius of the marker based on earthquake magnitude
-function getRadius(magnitude) {
-    return magnitude * 25;
-}
 
