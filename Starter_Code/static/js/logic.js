@@ -86,7 +86,10 @@ function getColor(depth) {
 
 // Determine the radius of the marker based on earthquake magnitude
 function getRadius(magnitude) {
-    return magnitude * 20;
-}
+    if (magnitude === 0) {
+      return 1;
+    }
+    return magnitude * 4;
+  }
 
 
