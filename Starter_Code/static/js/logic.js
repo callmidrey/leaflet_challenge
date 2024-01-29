@@ -3,29 +3,33 @@ var Url = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.ge
 
 // Perform a GET request to the query URL using D3
 d3.json(Url).then(function(data) {
-    createFeatures(data.features);
-}).catch(function(error) {
-    console.log("Error loading data: " + error);
-});
+    createFeatures(data);
+})//.catch(function(error) {
+    //console.log("Error loading data: " + error);
+//});
 
 // Create features Functions (earthquake markers)
 function createFeatures(earthquakeData) {
+    function stylefunc(feature) {return {
+        radius: getRadius(feature.properties.mag),
+        fillColor: getColor(feature.geometry.coordinates[2]),
+        fillOpacity: 0.6,
+        color: "#000",
+        stroke: true,
+        weight: 0.8
+    }
+
+    }
     var earthquakes = L.geoJSON(earthquakeData, {
         onEachFeature: function(feature, layer) {
-            layer.bindPopup("<h3>Magnitude: " + feature.properties.mag +"</h3><h3>Location: "+ feature.properties.place +
+            layer.bindPopup("<h3>Magnitude: " + feature.properties.mag +"</h3><h3>Location: "+ feature.properties.place + "</h3><h3>Depth: " + feature.geometry.coordinates[2] +
             "</h3><hr><p>" + new Date(feature.properties.time) + "</p>");
         },
         // Create layers gathering the coordinates
         pointToLayer: function (feature, latlng) {
-            return new L.circle(latlng, {
-                radius: getRadius(feature.properties.mag),
-                fillColor: getColor(feature.geometry.coordinates[2]),
-                fillOpacity: 0.6,
-                color: "#000",
-                stroke: true,
-                weight: 0.8
-            });
-        }
+            return L.circleMarker(latlng, );
+        },
+        style: stylefunc
     });
 
     // Generate the map layers
@@ -76,13 +80,21 @@ function createMap(earthquakes) {
 
 // Assign color of the marker based on earthquake depth
 function getColor(depth) {
-    return depth > 70 ? "#238823" :
-        depth > 50 ? "#6fa06f" :
-        depth > 30 ? "#98bf98" :
-        depth > 10 ? "#c2e699" :
-        depth > 1 ? "#e5f5e0" :
-        "#f7fcf5";
-}
+    switch (true) {
+      case depth > 90:
+        return "#EA2C2C";
+      case depth > 70:
+        return "#EA822C";
+      case depth > 50:
+        return "#EE9C00";
+      case depth > 30:
+        return "#EECC00";
+      case depth > 10:
+        return "#D4EE00";
+      default:
+        return "#98EE00";
+    }
+  }
 
 // Determine the radius of the marker based on earthquake magnitude
 function getRadius(magnitude) {
@@ -91,5 +103,4 @@ function getRadius(magnitude) {
     }
     return magnitude * 4;
   }
-
 
