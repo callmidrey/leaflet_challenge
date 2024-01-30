@@ -3,7 +3,8 @@ This is my Module 15 Challenge
 
 # Earthquake Data Visualization
 This project fetches earthquake data from the USGS (United States Geological Survey) API and visualizes it on a web map using Leaflet.js. The earthquake data is retrieved in GeoJSON format and displayed as markers on the map, with each marker representing an earthquake event. Additionally, the magnitude and location of each earthquake are displayed in pop-up windows when a marker is clicked. A sneak peak is included below:
-![Alt text](<Screenshot 2024-01-27 092604.png>)
+![Screenshot 2024-01-29 203422](https://github.com/callmidrey/leaflet_challenge/assets/142331312/2917ca6b-d604-4440-b25e-86aed2d5801f)
+
 
 # Features
 Fetches earthquake data from the USGS API.
